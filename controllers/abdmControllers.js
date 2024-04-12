@@ -11,9 +11,9 @@ export async function postAbdm(req, res) {
 
     console.log('url:>>>>>>', ABDM_URL + url)
 
-  const res= await  axios.get('https://dummy.restapiexample.com/api/v1/employees')
+  const res11= await  axios.get('https://dummy.restapiexample.com/api/v1/employees')
   
-  console.log('res:>>>>>>', res)
+  console.log('res11:>>>>>>', res11)
   
     const Idbody = {
         clientId: ABDM_CLIENT_ID,
