@@ -16,14 +16,19 @@ export async function postAbdm(req, res) {
     }
 
 
+
+    const body = req.body
+    
+
+    const tokanRes = await postRecords(ABDM_SESSION_URL + "/sessions", Idbody)
+    const token = tokanRes.data.accessToken
+
     const headers = {
         "Content-Type": "application/json",
         Authorization: "Bearer " + token,
         'X-CM-ID': 'sbx'
     };
-    const body = req.body
-
-    const tokanRes = await postRecords(ABDM_SESSION_URL + "/sessions", Idbody)
+    
     console.log('tokanRes :>> ', tokanRes);
     const dataRes = await postRecords(ABDM_URL + url, body, headers)
     console.log('dataRes :>> ', dataRes);
