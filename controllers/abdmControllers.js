@@ -23,7 +23,7 @@ export function postAbdm(req, res) {
             const headers = {
                 "Content-Type": "application/json",
                 Authorization: "Bearer " + token,
-                'X-CM-ID': 'sbx'
+                // 'X-CM-ID': 'sbx'
             };
             // const abdmRes = axios.post(ABDM_URL + url, body, { headers })
             postRecords(ABDM_URL + url, body, headers)
