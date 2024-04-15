@@ -33,7 +33,9 @@ export function postAbdm(req, res) {
                     console.log('responseapi:>>>>>>', response)
                     res.status(200).json(response.data)
                 })
-                .catch(err => { res.status(500).json(err) })
+                .catch(err => {
+                    console.log('error of main part=============================')
+                     res.status(500).json(err) })
 
             console.log('***********************')
         })
