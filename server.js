@@ -10,7 +10,7 @@ app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
 
 
-app.use('/himsprovider/*', route)
+app.use('/*', route)
 
 app.use((req, res, next) => {
     const error = new Error('Not found.')

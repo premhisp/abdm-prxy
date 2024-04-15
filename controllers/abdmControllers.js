@@ -7,7 +7,8 @@ export function getAbdm(req, res) {
 }
 export function postAbdm(req, res) {
 
-    const url = req.originalUrl.replace('/himsprovider', '')
+    const url = req.originalUrl
+    // const url = req.originalUrl.replace('/himsprovider', '')
 
     console.log('url:>>>>>>', ABDM_URL + url)
     const Idbody = {
@@ -23,10 +24,11 @@ export function postAbdm(req, res) {
             const headers = {
                 "Content-Type": "application/json",
                 Authorization: "Bearer " + token,
-                // 'X-CM-ID': 'sbx'
+                'X-CM-ID': 'sbx'
             };
             // const abdmRes = axios.post(ABDM_URL + url, body, { headers })
             postRecords(ABDM_URL + url, body, headers)
+            console.log('inside main api=================================================')
                 .then(response => {
                     console.log('responseapi:>>>>>>', response)
                     res.status(200).json(response.data)
