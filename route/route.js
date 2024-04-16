@@ -6,6 +6,6 @@ const route = Router();
 
 route.route('/')
     .get(checkAuth, getAbdm)
-    .post(postAbdm)
+    .post(checkAuth,postAbdm)
 
     export default route;

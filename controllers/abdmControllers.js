@@ -1,20 +1,32 @@
-import { postRecords } from "../utiils/apiCalls.js";
+import { getRecords, postRecords } from "../utiils/apiCalls.js";
 
 const { ABDM_CLIENT_ID, ABDM_CLIENT_SECRET, ABDM_SESSION_URL, ABDM_URL } = process.env
 
-export function getAbdm(req, res) {
-
+const Idbody = {
+    clientId: ABDM_CLIENT_ID,
+    clientSecret: ABDM_CLIENT_SECRET,
 }
-export function postAbdm(req, res) {
 
-    // const url = req.originalUrl
+export function getAbdm(req, res) {
     const url = req.originalUrl.replace('/himsprovider', '')
 
-    console.log('url:>>>>>>', ABDM_URL + url)
-    const Idbody = {
-        clientId: ABDM_CLIENT_ID,
-        clientSecret: ABDM_CLIENT_SECRET,
-    }
+    postRecords(ABDM_SESSION_URL + "/sessions", Idbody)
+        .then(response => {
+            const token = response.data.accessToken
+            var headers = req.headers
+            headers.Authorization = "Bearer " + token,
+            headers['X-CM-ID'] = 'sbx'
+            console.log('headers:>>>>>>', headers)
+
+            getRecords(ABDM_URL + url, headers)
+                .then(response => res.status(200).json(response.data))
+                .catch(err => res.status(500).json(err.response.data))
+        })
+        .catch(err => res.status(500).json(err.response.data))
+}
+
+export function postAbdm(req, res) {
+    const url = req.originalUrl.replace('/himsprovider', '')
 
     postRecords(ABDM_SESSION_URL + "/sessions", Idbody)
         .then(response => {
@@ -26,19 +38,9 @@ export function postAbdm(req, res) {
                 Authorization: "Bearer " + token,
                 'X-CM-ID': 'sbx'
             };
-            // const abdmRes = axios.post(ABDM_URL + url, body, { headers })
             postRecords(ABDM_URL + url, body, headers)
-                .then(response => {
-                    console.log('responseapi:>>>>>>', response)
-                    res.status(200).json(response.data)
-                })
-                .catch(err => {
-                    console.log('error of main part=============================')
-                     res.status(500).json(err) })
-
-            console.log('***********************')
+                .then(response => res.status(200).json(response.data))
+                .catch(err => res.status(500).json(err.response.data))
         })
-        .catch(err => { res.status(500).json(err) })
-    console.log('finally:>>>>')
-
+        .catch(err => res.status(500).json(err.response.data))
 }
