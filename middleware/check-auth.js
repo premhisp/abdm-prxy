@@ -1,5 +1,5 @@
 export const checkAuth = (req, res, next) => {
-    const { USER_ID, PASSWORD } = process.env
+    const { ABDM_USER_ID, ABDM_PASSWORD } = process.env
 
     const base64Credentials = req.headers.authorization?.split(' ')[1];
 
@@ -9,7 +9,7 @@ export const checkAuth = (req, res, next) => {
     const credentials = Buffer.from(base64Credentials, 'base64').toString('ascii');
     const [username, password] = credentials.split(':');
 
-    if (username == USER_ID && password == PASSWORD) {
+    if (username == ABDM_USER_ID && password == ABDM_PASSWORD) {
         next()
     } else return res.status(401).json({ message: 'Invalid Authentication Credentials' });
 }
