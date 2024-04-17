@@ -15,14 +15,13 @@ export function getAbdm(req, res) {
             const token = response.data.accessToken
             var headers = req.headers
             headers.Authorization = "Bearer " + token,
-            headers['X-CM-ID'] = 'sbx'
-            console.log('headers:>>>>>>', headers)
+                headers['X-CM-ID'] = 'sbx'
 
             getRecords(ABDM_URL + url, headers)
                 .then(response => res.status(200).json(response.data))
-                .catch(err => res.status(500).json(err.response.data))
+                .catch(err => res.status(500).json(err.response?.data))
         })
-        .catch(err => res.status(500).json(err.response.data))
+        .catch(err => res.status(500).json(err.response?.data))
 }
 
 export function postAbdm(req, res) {
