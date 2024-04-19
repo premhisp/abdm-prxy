@@ -2,7 +2,7 @@ import { getRecords, postRecords } from "../utiils/apiCalls.js";
 
 const { ABDM_CLIENT_ID, ABDM_CLIENT_SECRET, ABDM_SESSION_URL, ABDM_URL } = process.env
 
-const exception_url = ['/patients/sms/notify2']
+const exception_url = ['/patients/sms/notify2', '/users/auth/fetch-modes', "/users/auth/init", "/users/auth/confirm", "/links/link/add-contexts", "/patients/sms/on-notify",]
 
 const Idbody = {
     clientId: ABDM_CLIENT_ID,
@@ -19,7 +19,7 @@ export function getAbdm(req, res) {
                 Authorization: "Bearer " + token,
                 'X-CM-ID': 'sbx'
             };
-            headers["Content-Type"]=req.headers['content-type']
+            headers["Content-Type"] = req.headers['content-type']
 
             if (req.headers['x-token']) headers['x-token'] = req.headers['x-token']
 
@@ -32,7 +32,8 @@ export function getAbdm(req, res) {
 
 export function postAbdm(req, res) {
     const url = req.originalUrl.replace('/himsprovider', '')
-    const BASE_URL = exception_url.includes(url) ? ABDM_SESSION_URL + url : ABDM_URL + url
+    const ifSession = exception_url.includes(url)
+    const BASE_URL = ifSession ? ABDM_SESSION_URL + url : ABDM_URL + url
 
     postRecords(ABDM_SESSION_URL + "/sessions", Idbody)
         .then(response => {
@@ -43,11 +44,10 @@ export function postAbdm(req, res) {
                 Authorization: "Bearer " + token,
                 'X-CM-ID': 'sbx'
             };
-            headers["Content-Type"]=req.headers['content-type']
+            headers["Content-Type"] = req.headers['content-type']
 
             if (req.headers['x-token']) headers['x-token'] = req.headers['x-token']
             if (req.headers['Accept']) headers['Accept'] = req.headers['Accept']
-
 
             postRecords(BASE_URL, body, headers)
                 .then(response => res.status(200).json(response.data))
