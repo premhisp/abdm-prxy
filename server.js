@@ -10,13 +10,18 @@ app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
 
 const corsOptions = {
-	origin: 'http://example.com',
-	optionsSuccessStatus: 200
+    origin: 'http://example.com',
+    optionsSuccessStatus: 200
 };
 
 app.use(cors())
 app.use('/himsprovider/*', route)
 
+app.use('/', (req, res) => {
+    res.status(200).json({
+        msg: 'connected to our server successfully!'
+    })
+})
 app.use((req, res, next) => {
     const error = new Error('Not found.')
     error.status = 404

@@ -1,8 +1,12 @@
 import axios from "axios"
 
-export function postRecords(api, body, headers = {}) {
-    return axios.post(api, body, { headers })
+export async function postRecords(api, body, headers = {}) {
+    console.log('api before :>> ', api);
+    const res= await axios.post(api, body, { headers })
+    console.log('api :>> ', api);
+    console.log('res :>> ', res.data);
+    return res
 }
-export function getRecords(api, headers = {}) {
-    return axios.get(api, { headers })
+export async function getRecords(api, headers = {}) {
+    return await axios.get(api, { headers })
 }
